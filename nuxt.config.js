@@ -37,6 +37,25 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: 'AIzaSyCxqB5KYYnGMwr2Ff8SHbGXNCjzEmtVin8',
+          authDomain: process.env.AUTH_DOMAIN,
+          projectId: 'buwuh-9f06e',
+          storageBucket: process.env.STORAGE_BUCKET,
+          messagingSenderId: process.env.MESSAGING_SENDER_ID,
+          appId: process.env.APP_ID,
+          measurementId: process.env.MEASUREMENT_ID,
+          databaseUrl: 'https://buwuh-9f06e-default-rtdb.asia-southeast1.firebasedatabase.app'
+        },
+        services: {
+          auth: true, // Just as example. Can be any other service.
+          database: true
+        }
+      }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
