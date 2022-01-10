@@ -111,12 +111,39 @@
             /></svg
         ></a>
       </div>
+      <Button label="button bro" @click="buttonClick()"/>
     </div>
   </div>
 </template>
 
 <script>
+import { collection, addDoc } from 'firebase/firestore'
+import Button from "./Button.vue";
+import { db } from "~/plugins/firebase.js"
+
 export default {
-  name: 'NuxtTutorial',
+    name: "NuxtTutorial",
+    components: { Button },		
+		// created () {
+			
+		// },
+		methods: {
+			async buttonClick () {
+				console.log('tes', process.env.API_KEY);
+				// const ref = doc(db, 'buwuh', )
+				const document = {
+					name: "waluyo",
+					value: 50000,
+					date: '2022-01-01'
+				};
+				try {
+					await addDoc(collection(db, 'buwuh'), document)
+					alert("Success!")
+				} catch (e) {
+					alert("Error!")
+					console.error(e)
+				}
+			}
+		}
 }
 </script>
