@@ -111,7 +111,9 @@
             /></svg
         ></a>
       </div>
-      <Button label="button bro" @click="buttonClick()"/>
+      <nuxt-link to="/login">
+        <Button label="Login"/>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -122,28 +124,28 @@ import Button from "./Button.vue";
 import { db } from "~/plugins/firebase.js"
 
 export default {
-    name: "NuxtTutorial",
-    components: { Button },		
-		// created () {
-			
-		// },
-		methods: {
-			async buttonClick () {
-				console.log('tes', process.env.API_KEY);
-				// const ref = doc(db, 'buwuh', )
-				const document = {
-					name: "waluyo",
-					value: 50000,
-					date: '2022-01-01'
-				};
-				try {
-					await addDoc(collection(db, 'buwuh'), document)
-					alert("Success!")
-				} catch (e) {
-					alert("Error!")
-					console.error(e)
-				}
-			}
-		}
+  name: "NuxtTutorial",
+  components: { Button },		
+  // created () {
+  // 	console.log('tes', process.env.API_KEY);
+  // },
+  methods: {
+    async buttonClick () {
+      console.log('tes', process.env.API_KEY);
+      // const ref = doc(db, 'buwuh', )
+      const document = {
+        name: "waluyo",
+        value: 50000,
+        date: '2022-01-01'
+      };
+      try {
+        await addDoc(collection(db, 'buwuh'), document)
+        alert("Success!")
+      } catch (e) {
+        alert("Error!")
+        console.error(e)
+      }
+    }
+  }
 }
 </script>
