@@ -1,6 +1,6 @@
 <template>
   <div class="p-11">
-    <div class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100">
+    <form v-on:submit.prevent="submit()" class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100">
       <div class="font-bold py-8 text-2xl text-center">
         LOGIN
       </div>
@@ -31,16 +31,18 @@
         </div>
       </div>
       <div>
-        <Button class="min-w-full" label="Masuk"/>
+        <Button @click="submit()" class="min-w-full" label="Masuk"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google"/>
         <Button class="min-w-full" label="Masuk dengan Facebook "/>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import Button from "~/components/Button.vue";
+
 export default {
     name: "LoginPage",
     components: { Button },
@@ -50,13 +52,50 @@ export default {
         showPassword: false
       }
     },
+		created () {
+			this.getUser()
+		},
     methods: {
+			getUser() {
+				const auth = getAuth();
+				onAuthStateChanged(auth, (user) => {
+					if (user) {
+						// User is signed in, see docs for a list of available properties
+						// https://firebase.google.com/docs/reference/js/firebase.User
+						const uid = user.uid;
+						console.log(uid);
+						// ...
+					} else {
+						// User is signed out
+						// ...
+					}
+				});
+			},
       getClearForm() {
         return {
           email: null,
-          password:  null
+          password: null
         }
-      }
+      },
+			submit() {
+				console.log(this.form)
+				const email = this.form.email
+				const password = this.form.password
+				const auth = getAuth();
+				signInWithEmailAndPassword (auth, email, password)
+					.then((userCredential) => {
+						// Signed in 
+						// const user = userCredential.user;
+						console.log('succes', userCredential);
+						// ...
+					})
+					.catch((error) => {
+						// const errorCode = error.code;
+						const errorMessage = error.message;
+						console.log(errorMessage);
+						// ..
+					});
+			}
     }
 }
 </script>
