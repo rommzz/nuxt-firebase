@@ -1,6 +1,6 @@
 <template>
   <div class="p-11">
-    <form v-on:submit.prevent="submit()" class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100">
+    <form class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100" @submit.prevent="submit()">
       <div class="font-bold py-8 text-2xl text-center">
         REGISTER
       </div>
@@ -28,8 +28,8 @@
         </div>
       </div>
       <div>
-        <Button @click="submit()" class="min-w-full" label="Daftar"/>
-				<div class="mt-2 bg-gray-400 mx-auto w-3/4"/>
+        <Button class="min-w-full" label="Daftar" @click="submit()"/>
+				<div class="mt-2 bg-gray-400 mx-auto w-3/4" style="height: 1px;"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google"/>
         <Button class="min-w-full" label="Masuk dengan Facebook "/>
       </div>

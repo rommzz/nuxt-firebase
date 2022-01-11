@@ -1,6 +1,6 @@
 <template>
   <div class="p-11">
-    <form v-on:submit.prevent="submit()" class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100">
+    <form class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100" @submit.prevent>
       <div class="font-bold py-8 text-2xl text-center">
         LOGIN
       </div>
@@ -31,7 +31,8 @@
         </div>
       </div>
       <div>
-        <Button @click="submit()" class="min-w-full" label="Masuk"/>
+        <Button label="Masuk" class="min-w-full" @click="submit()"/>
+        <div class="mt-2 bg-gray-400 mx-auto w-3/4" style="height: 1px;"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google"/>
         <Button class="min-w-full" label="Masuk dengan Facebook "/>
       </div>
@@ -41,6 +42,7 @@
 
 <script>
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+// import { mapMutations } from "vuex";
 import Button from "~/components/Button.vue";
 
 export default {
@@ -53,7 +55,7 @@ export default {
       }
     },
 		created () {
-			this.getUser()
+			// this.getUser()
 		},
     methods: {
 			getUser() {
@@ -63,10 +65,13 @@ export default {
 						// User is signed in, see docs for a list of available properties
 						// https://firebase.google.com/docs/reference/js/firebase.User
 						const uid = user.uid;
+            
+						// eslint-disable-next-line no-console
 						console.log(uid);
 						// ...
 					} else {
 						// User is signed out
+            console.log('no user logged in');
 						// ...
 					}
 				});
@@ -86,7 +91,9 @@ export default {
 					.then((userCredential) => {
 						// Signed in 
 						// const user = userCredential.user;
-						console.log('succes', userCredential);
+            this.$store.commit('user/setUserData', userCredential.user)
+            // this.$store.state.user = user
+						console.log('succes');
 						// ...
 					})
 					.catch((error) => {

@@ -114,12 +114,14 @@
       <nuxt-link to="/login">
         <Button label="Login"/>
       </nuxt-link>
+      <Button label="Logout" @click="logout()"/>
     </div>
   </div>
 </template>
 
 <script>
 import { collection, addDoc } from 'firebase/firestore'
+import { signOut, getAuth } from "firebase/auth";
 import Button from "./Button.vue";
 import { db } from "~/plugins/firebase.js"
 
@@ -131,7 +133,6 @@ export default {
   // },
   methods: {
     async buttonClick () {
-      console.log('tes', process.env.API_KEY);
       // const ref = doc(db, 'buwuh', )
       const document = {
         name: "waluyo",
@@ -145,6 +146,15 @@ export default {
         alert("Error!")
         console.error(e)
       }
+    },
+    logout() {
+      const auth = getAuth()
+      signOut(auth).then(() => {
+        console.log('logged out');
+        this.$store.commit('user/clearUserData')
+      }).catch(e => {
+        console.log(e);
+      })
     }
   }
 }
