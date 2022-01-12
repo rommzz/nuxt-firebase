@@ -1,6 +1,6 @@
 <template>
   <div class="p-11">
-    <form class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100" @submit.prevent="submit()">
+    <form class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100" @submit.prevent>
       <div class="font-bold py-8 text-2xl text-center">
         REGISTER
       </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Button from "~/components/Button.vue";
 
 export default {
@@ -50,25 +50,7 @@ export default {
         showPassword: false
       }
     },
-		created () {
-			this.getUser()
-		},
     methods: {
-			getUser() {
-				const auth = getAuth();
-				onAuthStateChanged(auth, (user) => {
-					if (user) {
-						// User is signed in, see docs for a list of available properties
-						// https://firebase.google.com/docs/reference/js/firebase.User
-						const uid = user.uid;
-						console.log(uid);
-						// ...
-					} else {
-						// User is signed out
-						// ...
-					}
-				});
-			},
       getClearForm() {
         return {
           email: null,
@@ -79,8 +61,8 @@ export default {
 			submit() {
 				const auth = getAuth();
 				createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
-					.then((userCredential) => {
-						console.log("succes create", userCredential);
+					.then(() => {
+						this.$router.push({ path: '/login' })
 						// const user = userCredential.user;
 						// ...
 					})
