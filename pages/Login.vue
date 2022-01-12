@@ -1,5 +1,5 @@
 <template>
-  <div class="p-11">
+  <div class="">
     <form class="shadow-lg rounded-md shadow-sm -space-y-px mx-auto max-w-screen-sm p-4 bg-gray-100" @submit.prevent>
       <div class="font-bold py-8 text-2xl text-center">
         LOGIN

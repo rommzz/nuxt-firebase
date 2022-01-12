@@ -9,6 +9,11 @@ export default {
 		APP_ID: process.env.APP_ID,
 		MEASUREMENT_ID: process.env.MEASUREMENT_ID,
 	},
+
+	server: {     
+    port: 3000, // default: 3000     
+    host: '0.0.0.0', // default: localhost   
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
