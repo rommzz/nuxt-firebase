@@ -20,9 +20,11 @@
       </div>
       <div class="flex justify-between py-4">
         <div>
-          <span >
-            Belum punya akun?
-          </span>
+          <nuxt-link to="/register">
+						<span class="hover:text-blue-500" >
+							Belum Punya Akun?
+						</span>
+					</nuxt-link>
         </div>
         <div>
           <span>
@@ -31,7 +33,7 @@
         </div>
       </div>
       <div>
-        <Button label="Masuk" class="min-w-full" @click="submit()"/>
+        <Button :isLoading="isLoading" label="Masuk" class="min-w-full" @click="submit()"/>
         <div class="mt-2 bg-gray-400 mx-auto w-3/4" style="height: 1px;"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google"/>
         <Button class="min-w-full" label="Masuk dengan Facebook "/>
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 // import { mapMutations } from "vuex";
 import Button from "~/components/Button.vue";
 
@@ -51,31 +53,11 @@ export default {
     data() {
       return {
         form: this.getClearForm(),
-        showPassword: false
+        showPassword: false,
+				isLoading: false
       }
     },
-		created () {
-			// this.getUser()
-		},
     methods: {
-			getUser() {
-				const auth = getAuth();
-				onAuthStateChanged(auth, (user) => {
-					if (user) {
-						// User is signed in, see docs for a list of available properties
-						// https://firebase.google.com/docs/reference/js/firebase.User
-						const uid = user.uid;
-            
-						// eslint-disable-next-line no-console
-						console.log(uid);
-						// ...
-					} else {
-						// User is signed out
-            console.log('no user logged in');
-						// ...
-					}
-				});
-			},
       getClearForm() {
         return {
           email: null,
@@ -83,25 +65,22 @@ export default {
         }
       },
 			submit() {
-				console.log(this.form)
+				this.isLoading = true
 				const email = this.form.email
 				const password = this.form.password
 				const auth = getAuth();
 				signInWithEmailAndPassword (auth, email, password)
 					.then((userCredential) => {
 						// Signed in 
-						// const user = userCredential.user;
             this.$store.commit('user/setUserData', userCredential.user)
-            // this.$store.state.user = user
-						console.log('succes');
-						// ...
+						this.$router.push({ path: '/' })
+						console.log('succes', userCredential);
 					})
 					.catch((error) => {
-						// const errorCode = error.code;
-						const errorMessage = error.message;
-						console.log(errorMessage);
-						// ..
-					});
+						console.log(error.message);
+					}).finally(() => {
+						this.isLoading = false
+					})
 			}
     }
 }
