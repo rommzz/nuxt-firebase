@@ -73,11 +73,13 @@ export default {
 					.then((userCredential) => {
 						// Signed in 
             this.$store.commit('user/setUserData', userCredential.user)
+						this.$toast.success('Login berhasil')
 						this.$router.push({ path: '/' })
 						console.log('succes', userCredential);
 					})
 					.catch((error) => {
 						console.log(error.message);
+						this.$toast.show('gagal login: '+error.message)
 					}).finally(() => {
 						this.isLoading = false
 					})
