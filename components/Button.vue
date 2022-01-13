@@ -2,7 +2,9 @@
 	<button
 		:disabled="isLoading"
 		:isLoading="isLoading"
-		:class="`text-white font-bold py-2 px-4 rounded ${isLoading ? 'cursor-not-allowed bg-gray-300' : 'bg-blue-500 hover:bg-blue-700'}`"
+		:fill-width="fillWidth"
+		:color="color"
+		:class="`text-white font-bold py-2 px-4 rounded ${isLoading ? 'cursor-not-allowed bg-gray-300' : 'bg-' + color + '-500 hover:bg-' + color + '-700'} ${fillWidth && 'w-full'}`"
 		@click="$emit('click', $event);"
 		>
 		<template v-if="isLoading">
@@ -24,7 +26,15 @@ export default {
 			type: String,
 			default: 'button',
 		},
+		color: {
+			type: String,
+			default: 'blue',
+		},
 		isLoading: {
+			type: Boolean,
+			default: false,
+		},
+		fillWidth: {
 			type: Boolean,
 			default: false,
 		},
