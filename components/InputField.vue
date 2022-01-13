@@ -4,8 +4,10 @@
       {{ label }}
     </label>
     <input
-      id="grid-first-name"
+      :id="id"
       v-model="inputVal" 
+			:value="value"
+			:required="required"
       class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-blue-900 border-blue-500" 
       :type="type" 
       :placeholder="placeholder">
@@ -16,6 +18,9 @@
 export default {
   name: 'InputField',
   props: {
+		value: {
+			default: null
+		},
     type: {
       type: String,
       default: 'text'
@@ -27,6 +32,14 @@ export default {
     label: {
       type: String,
       default: 'label'
+    },
+		id: {
+      type: String,
+      default: 'id'
+    },
+		required: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
