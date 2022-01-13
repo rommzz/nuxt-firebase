@@ -5,25 +5,7 @@
     </div>
     <template v-else>
       <template v-if="items.length">
-        <span>
-          DATA
-        </span>
-        <table class="table-auto">
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Nominal</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in items" :key="index">
-              <td>{{ item.data.name }}</td>
-              <td>{{ item.data.value }}</td>
-              <td>1961</td>
-            </tr>
-          </tbody>
-        </table>
+        <list-data :items="items" />
       </template>
       <div v-else class="text-center py-5">
         <div class="mb-3">
@@ -43,8 +25,10 @@
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from "~/plugins/firebase.js"
 import Button from '~/components/Button.vue'
+import ListData from '~/components/ListData.vue'
 export default {
     name: "BuwuhIndex",
+		components: { Button, ListData },
     middleware: "authenticated",
     data() {
         return {
@@ -69,7 +53,6 @@ export default {
             });
             this.isLoading = false;
         }
-    },
-    components: { Button }
+    }
 }
 </script>
