@@ -1,5 +1,5 @@
 <template>
-	<BuwuhForm v-if="loaded" :data="data" />
+	<BuwuhForm v-if="loaded" :data="data" :id="$route.params.id"/>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
 	data() {
 		return{
 			data: {},
-			loaded: false
+			loaded: false,
 		}
 	},
 	created() {
