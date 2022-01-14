@@ -53,69 +53,72 @@ import InputField from "~/components/InputField.vue";
 import Button from "~/components/Button.vue";
 import { db } from "~/plugins/firebase.js"
 export default {
-    name: "BuwuhForm",
-    components: { InputField, Button },
-		props: {
-			data: {
-				type: Object,
-				default: ()=> {}
-			},
-			id: {
-				type: String,
-				default: null
+	name: "BuwuhForm",
+	components: { InputField, Button },
+	props: {
+		data: {
+			type: Object,
+			default: ()=> {}
+		},
+		id: {
+			type: String,
+			default: null
+		}
+	},
+	data() {
+		return{
+			form: this.getClearForm(),
+			isLoading: false
+		}
+	},
+	created() {
+		if (this.id) {
+			this.form = this.data
+		}
+	},
+	methods: {
+		getClearForm() {
+			return{
+				name: null,
+				value: null,
+				user_id: this.$store.state.user.user.uid,
+				date: '2022-01-06'
 			}
 		},
-    data() {
-      return{
-        form: this.getClearForm(),
-				isLoading: false
-      }
-    },
-		created() {
-			if (this.id) {
-				this.form = this.data
-			}
+		reset() {
+			this.form = this.getClearForm()
 		},
-    methods: {
-      getClearForm() {
-        return{
-          name: null,
-          value: null,
-          user_id: this.$store.state.user.user.uid,
-          date: '2022-01-06'
-        }
-      },
-			async submit() {
-				if (!this.form.name) {
-					this.$toast.error('Nama wajib diisi')
-					return
-				}
-				this.isLoading = true
-				try {
-					await addDoc(collection(db, 'buwuh'), this.form)
-					console.log('succes');
-					this.$toast.success('Data berhasi ditambahkan')
-					this.$router.push({ path: '/buwuh' })
-				} catch (e) {
-					console.error(e)
-					this.$toast.error('Error: ' + e)
-				}
-				this.isLoading = false
-			},
-			async update() {
-				this.isLoading = true
-				try {
-					await setDoc(doc(db, "buwuh", this.id), this.form);
-					console.log('succes');
-					this.$toast.success('Data berhasi diupdate')
-					this.$router.push({ path: '/buwuh' })
-				} catch (e) {
-					console.error(e)
-					this.$toast.error('Error: ' + e)
-				}
-				this.isLoading = false
+		async submit() {
+			if (!this.form.name) {
+				this.$toast.error('Nama wajib diisi')
+				return
 			}
-    }
+			this.isLoading = true
+			try {
+				await addDoc(collection(db, 'buwuh'), this.form)
+				console.log('succes');
+				this.$toast.success('Data berhasi ditambahkan')
+				this.$router.push({ path: '/buwuh' })
+			} catch (e) {
+				console.error(e)
+				this.$toast.error('Error: ' + e)
+			}
+			this.isLoading = false
+		},
+		async update() {
+			this.isLoading = true
+			try {
+				await setDoc(doc(db, "buwuh", this.id), this.form);
+				console.log('succes');
+				this.$toast.success('Data berhasi diupdate')
+				this.$router.push({ path: '/buwuh' })
+			} catch (e) {
+				console.error(e)
+				this.$toast.error('Error: ' + e)
+			}
+			this.isLoading = false
+		}
+	}
 }
 </script>
 

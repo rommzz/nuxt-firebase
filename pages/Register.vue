@@ -28,7 +28,7 @@
         </div>
       </div>
       <div>
-        <Button class="min-w-full" label="Daftar" @click="submit()"/>
+        <Button :isLoading="isLoading" class="min-w-full" label="Daftar" @click="submit()"/>
 				<div class="mt-2 bg-gray-400 mx-auto w-3/4" style="height: 1px;"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google"/>
         <Button class="min-w-full" label="Masuk dengan Facebook "/>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, FacebookAuthProvider, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import Button from "~/components/Button.vue";
 
 export default {
@@ -48,7 +48,7 @@ export default {
     data() {
       return {
         form: this.getClearForm(),
-        showPassword: false
+        isLoading: false
       }
     },
     methods: {
@@ -59,17 +59,73 @@ export default {
 					passwordRepeat: null,
         }
       },
+      submitFb() {
+        const provider = new FacebookAuthProvider();
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // The signed-in user info.
+            const user = result.user;
+            const storeUser = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName
+            }
+            this.$store.commit('user/setUserData', storeUser)
+						this.$toast.success('Login berhasil')
+						this.$router.push({ path: '/buwuh' })
+
+            // ...
+          })
+          .catch((error) => {
+            // The AuthCredential type that was used.
+            const credential = FacebookAuthProvider.credentialFromError(error);
+            console.log(error, credential);
+
+            // ...
+          });
+      },
+      submitGoogle() {
+        const provider = new GoogleAuthProvider();
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // The signed-in user info.
+            const user = result.user;
+            const storeUser = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName
+            }
+            this.$store.commit('user/setUserData', storeUser)
+						this.$toast.success('Login berhasil')
+						this.$router.push({ path: '/buwuh' })
+            // ...
+          }).catch((error) => {
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(error, credential);
+            // ...
+          });
+      },
 			submit() {
+        this.isLoading = true
 				const auth = getAuth();
 				createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
-					.then(() => {
-						this.$router.push({ path: '/login' })
-						// const user = userCredential.user;
-						// ...
+					.then((userCredential) => {
+            const user = {
+              uid: userCredential.user.uid,
+              email: userCredential.user.email,
+            }
+            this.$store.commit('user/setUserData', user)
+						this.$toast.success('Berhasil membuat akun')
+						this.$router.push({ path: '/buwuh' })
 					})
 					.catch((error) => {
 						console.log(error);
-					});
+					}).finally(() => {
+            this.isLoading = false
+          })
 			}
     }
 }
