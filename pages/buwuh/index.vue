@@ -5,7 +5,40 @@
     </div>
     <template v-else>
       <template v-if="items.length">
-        <list-data :items="items" />
+        <div class="flex justify-between mb-5">
+					<span class="self-center sm:text-4xl text-2xl font-bold">
+						List Data
+					</span>
+					<nuxt-link to="/buwuh/new">
+						<Button label="Tambah data"/>
+					</nuxt-link>
+				</div>
+				<div>
+					<template v-for="(item, index) in items">
+						<div :key="index" class="flex my-2">
+							<div class="w-full p-1 mr-2 pr-2 pl-2 bg-white rounded">
+								<div>
+									<span class="sm:text-3xl text-xl font-bold">
+										{{ item.data.name }}
+									</span>
+								</div>
+								<div>
+									<span class="font-medium">
+										{{ item.data.value }}
+									</span>
+								</div>
+							</div>
+							<div class="text-center">
+								<nuxt-link :to="{ name: 'buwuh-id', params: { id: item.id }}">
+									<Button fill-width color="green" label="Edit"/>
+								</nuxt-link>
+								<div class="my-1" />
+								<Button @click="deleteData(item)" color="red" label="Hapus"/>
+							</div>
+						</div>
+						<div class="my-2 bg-gray-300 h-0.5" :key="'line'+index" v-if="index+1 < items.length"/>
+					</template>
+				</div>
       </template>
       <div v-else class="text-center py-5">
         <div class="mb-3">
@@ -13,7 +46,7 @@
             Belum ada data
           </span>
         </div>
-        <nuxt-link to="/">
+        <nuxt-link to="/buwuh/new">
           <Button label="Tambah data"/>
         </nuxt-link>
       </div>
@@ -22,37 +55,54 @@
 </template>
 
 <script>
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { collection, query, where, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { db } from "~/plugins/firebase.js"
 import Button from '~/components/Button.vue'
-import ListData from '~/components/ListData.vue'
 export default {
     name: "BuwuhIndex",
-		components: { Button, ListData },
+		components: { Button },
     middleware: "authenticated",
     data() {
-        return {
-            items: [],
-            isLoading: false,
-        };
+			return {
+				items: [],
+				isLoading: false,
+			};
     },
     created() {
         this.getData();
     },
     methods: {
-        async getData() {
-            this.isLoading = true;
-            const q = query(collection(db, "buwuh"), where("user_id", "==", this.$store.state.user.user.uid));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                this.items.push({
-                    id: doc.id,
-                    data: doc.data()
-                });
-            });
-            this.isLoading = false;
-        }
+			async getData() {
+				this.isLoading = true;
+				const q = query(collection(db, "buwuh"), where("user_id", "==", this.$store.state.user.user.uid));
+				const querySnapshot = await getDocs(q);
+				querySnapshot.forEach((doc) => {
+					// doc.data() is never undefined for query doc snapshots
+					this.items.push({
+						id: doc.id,
+						data: doc.data()
+					});
+				});
+				this.isLoading = false;
+			},
+			edit(v) {
+				this.$router.push({ 
+					name: 'buwuh-id',
+					params: { id: v }
+				})
+			},
+			async deleteData(item) {
+				this.isLoading = true;
+				try {
+					await deleteDoc(doc(db, "buwuh", item.id));
+					this.$toast.success('Data berhasi dihapus')
+					this.items = []
+					this.getData()
+				} catch (error) {
+					this.isLoading = false;
+					console.log(error);
+				}
+			},
     }
 }
 </script>

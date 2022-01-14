@@ -29,13 +29,26 @@
 						placeholder="(opsional)"></textarea>
 				</div>
 			</div>
-			<Button :is-loading="isLoading" label="Simpan" @click="submit()"/>
+			<div class="flex justify-between">
+				<div>
+					<Button :is-loading="isLoading" :label="data ? 'Update' : 'Simpan'" @click="data ? update() : submit()"/>
+					<Button v-if="!data" label="Reset" @click="reset()"/>
+				</div>
+				<div>
+					<nuxt-link v-if="data" to="/buwuh/new">
+						<Button label="Buat Baru"/>
+					</nuxt-link>
+					<nuxt-link to="/buwuh/">
+						<Button label="Kembali"/>
+					</nuxt-link>
+				</div>
+			</div>
 		</form>
   </div>
 </template>
 
 <script>
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, setDoc, doc } from 'firebase/firestore'
 import InputField from "~/components/InputField.vue";
 import Button from "~/components/Button.vue";
 import { db } from "~/plugins/firebase.js"
@@ -46,6 +59,10 @@ export default {
 			data: {
 				type: Object,
 				default: ()=> {}
+			},
+			id: {
+				type: String,
+				default: null
 			}
 		},
     data() {
@@ -55,7 +72,7 @@ export default {
       }
     },
 		created() {
-			if (this.data) {
+			if (this.id) {
 				this.form = this.data
 			}
 		},
@@ -69,6 +86,10 @@ export default {
         }
       },
 			async submit() {
+				if (!this.form.name) {
+					this.$toast.error('Nama wajib diisi')
+					return
+				}
 				this.isLoading = true
 				try {
 					await addDoc(collection(db, 'buwuh'), this.form)
@@ -77,6 +98,20 @@ export default {
 					this.$router.push({ path: '/buwuh' })
 				} catch (e) {
 					console.error(e)
+					this.$toast.error('Error: ' + e)
+				}
+				this.isLoading = false
+			},
+			async update() {
+				this.isLoading = true
+				try {
+					await setDoc(doc(db, "buwuh", this.id), this.form);
+					console.log('succes');
+					this.$toast.success('Data berhasi diupdate')
+					this.$router.push({ path: '/buwuh' })
+				} catch (e) {
+					console.error(e)
+					this.$toast.error('Error: ' + e)
 				}
 				this.isLoading = false
 			}
