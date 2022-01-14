@@ -44,6 +44,7 @@ import Button from "~/components/Button.vue";
 export default {
     name: "RegisterPage",
     components: { Button },
+		middleware: 'loggedin',
     data() {
       return {
         form: this.getClearForm(),

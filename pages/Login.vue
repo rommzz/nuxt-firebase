@@ -50,6 +50,7 @@ import Button from "~/components/Button.vue";
 export default {
     name: "LoginPage",
     components: { Button },
+		middleware: 'loggedin',
     data() {
       return {
         form: this.getClearForm(),
@@ -74,8 +75,7 @@ export default {
 						// Signed in 
             this.$store.commit('user/setUserData', userCredential.user)
 						this.$toast.success('Login berhasil')
-						this.$router.push({ path: '/' })
-						console.log('succes', userCredential);
+						this.$router.push({ path: '/buwuh' })
 					})
 					.catch((error) => {
 						console.log(error.message);

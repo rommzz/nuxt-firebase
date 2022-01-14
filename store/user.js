@@ -9,5 +9,6 @@ export const state = () => ({
     },
     clearUserData () {
         localStorage.removeItem('user')
+				location.reload()
       },
   }
