@@ -1,4 +1,23 @@
 export default {
+	target: 'spa',
+	router: {
+    base: '/nuxt-firebase/'
+  },
+	env: {
+		API_KEY: process.env.API_KEY,
+		AUTH_DOMAIN: process.env.AUTH_DOMAIN,
+		DATABASE_URL: process.env.DATABASE_URL,
+		PROJECT_ID: process.env.PROJECT_ID,
+		STORAGE_BUCKET: process.env.STORAGE_BUCKET,
+		MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
+		APP_ID: process.env.APP_ID,
+		MEASUREMENT_ID: process.env.MEASUREMENT_ID,
+	},
+
+	server: {     
+    port: 3000, // default: 3000     
+    host: '0.0.0.0', // default: localhost   
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -18,7 +37,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+		'~/plugins/firebase.js',
+    { ssr: false, src: '~plugins/userLogin.js' }
+	],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,26 +59,22 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    [
-      '@nuxtjs/firebase',
-      {
-        config: {
-          apiKey: 'AIzaSyCxqB5KYYnGMwr2Ff8SHbGXNCjzEmtVin8',
-          authDomain: process.env.AUTH_DOMAIN,
-          projectId: 'buwuh-9f06e',
-          storageBucket: process.env.STORAGE_BUCKET,
-          messagingSenderId: process.env.MESSAGING_SENDER_ID,
-          appId: process.env.APP_ID,
-          measurementId: process.env.MEASUREMENT_ID,
-          databaseUrl: 'https://buwuh-9f06e-default-rtdb.asia-southeast1.firebasedatabase.app'
-        },
-        services: {
-          auth: true, // Just as example. Can be any other service.
-          database: true
-        }
-      }
-    ]
+		'@nuxtjs/toast',
   ],
+
+	toast: {
+		position: 'top-center',
+		duration: '2000',
+		register: [ // Register custom toasts
+			{
+				name: 'my-error',
+				message: 'Oops...Something went wrong',
+				options: {
+					type: 'error'
+				}
+			}
+		]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -73,4 +91,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: true
+    }
+  }
 }

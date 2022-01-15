@@ -111,15 +111,77 @@
             /></svg
         ></a>
       </div>
-      <Button label="button bro"/>
+      <nuxt-link to="/login">
+        <Button label="Login"/>
+      </nuxt-link>
+      <Button label="Logout" @click="logout()"/>
+			<Button label="Push Data" @click="pushData()"/>
+			<Button label="Load Data" @click="loadData()"/>
+
     </div>
   </div>
 </template>
 
 <script>
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
+import { signOut, getAuth } from "firebase/auth";
 import Button from "./Button.vue";
+import { db } from "~/plugins/firebase.js"
+
 export default {
-    name: "NuxtTutorial",
-    components: { Button }
+  name: "NuxtTutorial",
+  components: { Button },		
+  // created () {
+  // 	console.log('tes', process.env.API_KEY);
+  // },
+  methods: {
+    async buttonClick () {
+      // const ref = doc(db, 'buwuh', )
+      const document = {
+        name: "waluyo",
+        value: 50000,
+        date: '2022-01-01'
+      };
+      try {
+        await addDoc(collection(db, 'buwuh'), document)
+        alert("Success!")
+      } catch (e) {
+        alert("Error!")
+        console.error(e)
+      }
+    },
+		async pushData() {
+			const document = {
+        name: "waluyo winarno",
+        value: 50000,
+        date: '2022-01-01',
+				user_id: this.$store.state.user.user.uid
+      };
+      try {
+        await addDoc(collection(db, 'buwuh'), document)
+        console.log('succes');
+      } catch (e) {
+        console.error(e)
+      }
+		},
+		async loadData() {
+			const q = query(collection(db, "buwuh"), where("user_id", "==", this.$store.state.user.user.uid));
+
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach((doc) => {
+				// doc.data() is never undefined for query doc snapshots
+				console.log(doc.id, " => ", doc.data());
+			});
+		},
+    logout() {
+      const auth = getAuth()
+      signOut(auth).then(() => {
+        console.log('logged out');
+        this.$store.commit('user/clearUserData')
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+  }
 }
 </script>
