@@ -33,10 +33,10 @@
 									<Button fill-width color="green" label="Edit"/>
 								</nuxt-link>
 								<div class="my-1" />
-								<Button @click="deleteData(item)" color="red" label="Hapus"/>
+								<Button color="red" label="Hapus" @click="deleteData(item)"/>
 							</div>
 						</div>
-						<div class="my-2 bg-gray-300 h-0.5" :key="'line'+index" v-if="index+1 < items.length"/>
+						<div v-if="index+1 < items.length" :key="'line'+index" class="my-2 bg-gray-300 h-0.5"/>
 					</template>
 				</div>
       </template>
