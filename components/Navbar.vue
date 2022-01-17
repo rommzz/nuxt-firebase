@@ -5,7 +5,7 @@
 		</div>
 		<div>
 			{{ $store.state.user.user.displayName || $store.state.user.user.email }}
-			<button @click="logout()" class="bg-blue-500 border hover:bg-white hover:text-blue-500 px-1 rounded">Logout</button>
+			<button @click="logout()" class="bg-blue-500 border hover:bg-white hover:text-blue-500 px-1 rounded">Logout<font-awesome-icon :icon="['fas', 'sign-out-alt']" class="ml-1"/></button>
 		</div>
 	</nav>
 </template>

@@ -1,10 +1,10 @@
 <template>
 	<button
 		:disabled="isLoading"
-		:isLoading="isLoading"
+		:is-loading="isLoading"
 		:fill-width="fillWidth"
 		:color="color"
-		:class="`text-white font-bold py-2 px-4 rounded ${isLoading ? 'cursor-not-allowed bg-gray-300' : (color == 'red') ? 'bg-red-500 hover:bg-red-700' : (color == 'green') ? 'bg-green-500 hover:bg-green-700': 'bg-blue-500 hover:bg-blue-700'} ${fillWidth && 'w-full'}`"
+		:class="`text-white font-bold py-2 px-4 rounded ${isLoading ? 'cursor-not-allowed bg-gray-300' : (color == 'red') ? 'bg-red-500 hover:bg-red-700' : (color == 'green') ? 'bg-green-500 hover:bg-green-700': 'bg-blue-500 hover:bg-blue-700'} ${fillWidth && 'min-w-max w-full'}`"
 		@click="$emit('click', $event);"
 		>
 		<template v-if="isLoading">
@@ -14,6 +14,7 @@
 		</template>
 		<template v-else>
 			{{ label }}
+			<slot />
 		</template>
 	</button>
 </template>

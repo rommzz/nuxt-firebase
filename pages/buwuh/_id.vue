@@ -28,7 +28,6 @@ export default {
 			// const q = query(collection(db, "buwuh"), where(FieldPath.documentId, "==", this.$route.params.id));
 			// const querySnapshot = await getDocs(q);
 			if (docSnap.exists()) {
-				console.log("Document data:", docSnap.data());
 				this.data = docSnap.data()
 			} else {
 				// doc.data() will be undefined in this case

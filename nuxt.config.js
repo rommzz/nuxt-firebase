@@ -48,6 +48,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+		'@nuxtjs/fontawesome'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -58,6 +59,13 @@ export default {
     '@nuxtjs/pwa',
 		'@nuxtjs/toast',
   ],
+
+	fontawesome: {
+		icons: {
+			solid: true,
+			brands: true
+		}
+	},
 
 	toast: {
 		position: 'top-center',

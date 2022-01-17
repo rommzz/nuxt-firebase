@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-100 shadow-md p-2 rounded-md">
-    <div v-if="isLoading">
-      <span class="anitmate-pulse">Memuat data...</span>
+    <div v-if="isLoading" class="text-2xl text-center">
+      <span class="animate-pulse">Memuat data...</span>
     </div>
     <template v-else>
       <template v-if="items.length">
@@ -10,7 +10,9 @@
 						List Data
 					</span>
 					<nuxt-link to="/buwuh/new">
-						<Button label="Tambah data"/>
+						<Button label="Tambah data">
+							<font-awesome-icon :icon="['fas', 'plus']" class="ml-1"/>
+						</Button>
 					</nuxt-link>
 				</div>
 				<div>
@@ -30,10 +32,14 @@
 							</div>
 							<div class="text-center">
 								<nuxt-link :to="{ name: 'buwuh-id', params: { id: item.id }}">
-									<Button fill-width color="green" label="Edit"/>
+									<Button fill-width color="green" label="Edit">
+										<font-awesome-icon :icon="['fas', 'edit']" class="ml-1"/>
+									</Button>
 								</nuxt-link>
 								<div class="my-1" />
-								<Button color="red" label="Hapus" @click="deleteData(item)"/>
+								<Button fill-width color="red" label="Hapus" @click="deleteData(item)">
+									<font-awesome-icon :icon="['fas', 'trash-alt']" class="ml-1"/>
+								</Button>
 							</div>
 						</div>
 						<div v-if="index+1 < items.length" :key="'line'+index" class="my-2 bg-gray-300 h-0.5"/>
@@ -47,7 +53,9 @@
           </span>
         </div>
         <nuxt-link to="/buwuh/new">
-          <Button label="Tambah data"/>
+          <Button label="Tambah data">
+						<font-awesome-icon :icon="['fas', 'plus']" class="ml-1"/>
+					</Button>
         </nuxt-link>
       </div>
     </template>
