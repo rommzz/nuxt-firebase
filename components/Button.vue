@@ -13,8 +13,8 @@
 			</div>
 		</template>
 		<template v-else>
-			{{ label }}
 			<slot />
+			{{ label }}
 		</template>
 	</button>
 </template>

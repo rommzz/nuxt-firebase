@@ -11,7 +11,7 @@
 					</span>
 					<nuxt-link to="/buwuh/new">
 						<Button label="Tambah data">
-							<font-awesome-icon :icon="['fas', 'plus']" class="ml-1"/>
+							<font-awesome-icon :icon="['fas', 'plus']" class="mr-1"/>
 						</Button>
 					</nuxt-link>
 				</div>
@@ -33,12 +33,12 @@
 							<div class="text-center">
 								<nuxt-link :to="{ name: 'buwuh-id', params: { id: item.id }}">
 									<Button fill-width color="green" label="Edit">
-										<font-awesome-icon :icon="['fas', 'edit']" class="ml-1"/>
+										<font-awesome-icon :icon="['fas', 'edit']" class="mr-1"/>
 									</Button>
 								</nuxt-link>
 								<div class="my-1" />
 								<Button fill-width color="red" label="Hapus" @click="deleteData(item)">
-									<font-awesome-icon :icon="['fas', 'trash-alt']" class="ml-1"/>
+									<font-awesome-icon :icon="['fas', 'trash-alt']" class="mr-1"/>
 								</Button>
 							</div>
 						</div>
@@ -54,7 +54,7 @@
         </div>
         <nuxt-link to="/buwuh/new">
           <Button label="Tambah data">
-						<font-awesome-icon :icon="['fas', 'plus']" class="ml-1"/>
+						<font-awesome-icon :icon="['fas', 'plus']" class="mr-1"/>
 					</Button>
         </nuxt-link>
       </div>

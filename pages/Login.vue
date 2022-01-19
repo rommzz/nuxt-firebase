@@ -34,14 +34,14 @@
       </div>
       <div>
         <Button :isLoading="isLoading" label="Masuk" class="min-w-full" @click="submit()">
-					<font-awesome-icon :icon="['fas', 'sign-in-alt']" class="ml-1"/>
+					<font-awesome-icon :icon="['fas', 'sign-in-alt']" class="mr-1"/>
 				</Button>
         <div class="mt-2 bg-gray-400 mx-auto w-3/4" style="height: 1px;"/>
         <Button class="min-w-full my-2" label="Masuk dengan Google" @click="submitGoogle()">
-					<font-awesome-icon :icon="['fab', 'google']" class="ml-1"/>
+					<font-awesome-icon :icon="['fab', 'google']" class="mr-1"/>
 				</Button>
         <Button class="min-w-full"  label="Masuk dengan Facebook" @click="submitFb()">
-					<font-awesome-icon :icon="['fab', 'facebook-square']" class="ml-1"/>
+					<font-awesome-icon :icon="['fab', 'facebook-square']" class="mr-1"/>
 				</Button>
       </div>
     </form>

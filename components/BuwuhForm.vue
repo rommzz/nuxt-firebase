@@ -26,7 +26,7 @@
 					<textarea
 						v-model="form.notes" 
 						class="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-blue-900 border-blue-500" 
-						placeholder="(opsional)"></textarea>
+						placeholder="(opsional Contoh: tanpa undangan)"></textarea>
 				</div>
 			</div>
 			<div class="flex justify-between">
@@ -82,7 +82,7 @@ export default {
 				name: null,
 				value: null,
 				user_id: this.$store.state.user.user.uid,
-				date: '2022-01-06'
+				date: null
 			}
 		},
 		reset() {
