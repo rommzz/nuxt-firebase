@@ -4,14 +4,17 @@
 		:is-loading="isLoading"
 		:fill-width="fillWidth"
 		:color="color"
-		:class="`text-white font-bold py-2 px-4 rounded ${isLoading ? 'cursor-not-allowed bg-gray-300' : (color == 'red') ? 'bg-red-500 hover:bg-red-700' : (color == 'green') ? 'bg-green-500 hover:bg-green-700': 'bg-blue-500 hover:bg-blue-700'} ${fillWidth && 'min-w-max w-full'}`"
+		:class="`text-white font-bold py-2 px-4 rounded ${isLoading && 'cursor-not-allowed'} ${fillWidth && 'min-w-max w-full'} ${(color == 'red') ? 'bg-red-500 hover:bg-red-700' : (color == 'green') ? 'bg-green-500 hover:bg-green-700': 'bg-blue-500 hover:bg-blue-700'}`"
 		@click="$emit('click', $event);"
-		>
-		<template v-if="isLoading">
-			<div class="animate-pulse">
+	>
+		<div v-if="isLoading" class="flex">
+			<div class="mr-2">
+				<font-awesome-icon :icon="['fas', 'circle-notch']" class="animate-spin"/>
+			</div>
+			<div>
 				Processing...
 			</div>
-		</template>
+		</div>
 		<template v-else>
 			<slot />
 			{{ label }}
