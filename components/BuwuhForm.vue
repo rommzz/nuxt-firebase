@@ -96,6 +96,7 @@ export default {
 			this.isLoading = true
 			try {
 				this.form.lowerCaseName = (this.form.name).toLowerCase()
+				this.form.keys = (this.form.lowerCaseName).split(' ')
 				await addDoc(collection(db, 'buwuh'), this.form)
 				console.log('succes');
 				this.$toast.success('Data berhasi ditambahkan')
@@ -110,6 +111,7 @@ export default {
 			this.isLoading = true
 			try {
 				this.form.lowerCaseName = (this.form.name).toLowerCase()
+				this.form.keys = (this.form.lowerCaseName).split(' ')
 				await setDoc(doc(db, "buwuh", this.id), this.form);
 				console.log('succes');
 				this.$toast.success('Data berhasi diupdate')

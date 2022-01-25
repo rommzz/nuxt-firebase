@@ -18,9 +18,9 @@
 						</Button>
 					</nuxt-link>
 				</div>
-				<form class="flex" @submit.prevent>
+				<form class="flex focus-within:shadow-lg" @submit.prevent>
 					<input v-model="search" type="search" placeholder="Cari Nama ..." class="border flex-1 focus:border-blue-500 focus:outline-none p-2 rounded-l">
-					<button type="submit" class="bg-blue-500 px-3 rounded-r text-white" @click="searchData()">
+					<button type="submit" class="bg-blue-500 hover:bg-blue-700 px-3 rounded-r text-white" @click="searchData()">
 						<font-awesome-icon :icon="['fas', 'search']" class="mr-1"/>
 					</button>
 				</form>
@@ -140,37 +140,36 @@ export default {
 			},
 			async searchData() {
 				this.searchLoad = true;
+				console.log((this.search.toLowerCase()).split(' '));
 				const q = query(
 					collection(db, "buwuh"),
 					where("user_id", "==", this.$store.state.user.user.uid),	
-					where('lowerCaseName', ">=", this.search.toLowerCase()),
-					where('lowerCaseName', "<", this.search.toLowerCase() + 'z'),
-					orderBy('lowerCaseName')
+					where('keys', "array-contains-any", (this.search.toLowerCase()).split(' ')),
 					);
 				try {
 					const querySnapshot = await getDocs(q);
-					
+					const searchItem = []
 					querySnapshot.forEach((doc) => {
 						console.log(doc.data());
 						// doc.data() is never undefined for query doc snapshots
-						this.searchItem.push({
+						searchItem.push({
 							id: doc.id,
 							data: doc.data()
 						})
-						this.lastVisible = doc
 					})
-					if (this.searchItem.length) {
+					if (searchItem.length) {
 						this.hasLoadMore = false
-						this.items = this.searchItem
+						this.searchItem = searchItem
+						this.items = searchItem
 					}
 					else {
 						this.$toast.error('data tidak ditemukan')
 					}
-					this.searchLoad = false;
 					console.log('done');
 				} catch (error) {
 					console.log(error);
 				}
+				this.searchLoad = false;
 			},
 			edit(v) {
 				this.$router.push({ 
