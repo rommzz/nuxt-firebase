@@ -9,6 +9,7 @@ export const state = () => ({
     },
     clearUserData () {
         localStorage.removeItem('user')
-				// location.reload()
+        // this.$router.push({ path: '/'})
+				window.location.href = '/'
       },
   }

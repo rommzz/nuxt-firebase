@@ -18,9 +18,7 @@ export default {
 		logout() {
       const auth = getAuth()
       signOut(auth).then(() => {
-        console.log('logged out');
         this.$store.commit('user/clearUserData')
-				this.$router.push({ path: '/login' })
       }).catch(e => {
         console.log(e);
       })
