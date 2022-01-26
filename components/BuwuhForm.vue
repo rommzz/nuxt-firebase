@@ -32,14 +32,14 @@
 			<div class="flex justify-between">
 				<div>
 					<Button :is-loading="isLoading" :label="data ? 'Update' : 'Simpan'" @click="data ? update() : submit()"/>
-					<Button v-if="!data" label="Reset" @click="reset()"/>
+					<Button v-if="!data" type="button" label="Reset" @click="reset()"/>
 				</div>
 				<div>
 					<nuxt-link v-if="data" to="/buwuh/new">
-						<Button label="Buat Baru"/>
+						<Button type="button" label="Buat Baru"/>
 					</nuxt-link>
 					<nuxt-link to="/buwuh/">
-						<Button label="Kembali"/>
+						<Button type="button" label="Kembali"/>
 					</nuxt-link>
 				</div>
 			</div>

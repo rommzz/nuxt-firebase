@@ -1,5 +1,6 @@
 <template>
 	<button
+		:type="type"
 		:disabled="isLoading"
 		:is-loading="isLoading"
 		:fill-width="fillWidth"
@@ -28,7 +29,7 @@ export default {
 	props: {
 		label: {
 			type: String,
-			default: 'button',
+			default: '',
 		},
 		color: {
 			type: String,
@@ -42,6 +43,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		type: {
+			type: String,
+			default: ''
+		}
 		
 	}
 }
